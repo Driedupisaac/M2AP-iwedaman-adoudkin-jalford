@@ -23,7 +23,6 @@ private:
 public:
 
     //alex doudkins stuff
-
     int addressToInt(const void* address) {
     	std::stringstream ss;
     	ss << "0x" << std::hex << std::uppercase << std::setw(16) << std::setfill('0') << reinterpret_cast<uintptr_t>(address);
