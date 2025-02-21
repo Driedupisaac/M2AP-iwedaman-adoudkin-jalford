@@ -2,6 +2,7 @@
 // Created by Isaac Wedaman on 2/20/25.
 //
 #include <vector>
+#include <ctime>
 using namespace std;
 
 #ifndef TEMPLATE_H
@@ -35,6 +36,22 @@ class Template {
             swap(data[i], data[j]);
         }
     }
+
+
+
+    //adoudkins stuff
+
+
+    void randomize() {
+      if (data.siza() <= 1) return;
+
+      int time = time();
+
+
+
+
+      }
+
 
 };
 
