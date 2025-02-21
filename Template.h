@@ -4,13 +4,13 @@
 #include <vector>
 #include <ctime>
 #include <chrono>
+#include<iomanip>
+#include <sstream>
 
 using namespace std;
 
 #ifndef TEMPLATE_H
 #define TEMPLATE_H
-
-
 
 template <typename T>
 
@@ -18,37 +18,45 @@ class Template {
     vector <template> templates;
 
 
- private:
-    std::vector<T> data;
+private:
 
-    //i got this method from geeks for geeks: the "fisher - yates" algorithm
-    void shuffle() {
-        //you dont need to shuffle a vector of size one.
-        if (data.size() <= 1) return;
+public:
 
-        //seeding the random generator
-        random_device rd;
-        mt19937 gen(rd());
+    //alex doudkins stuff
 
-        //for each item in the vector, then generate a random index, and swap (using std::swap)
-        //the indexes, and the data contained.
-        for (size_t i = data.size() - 1; i > 0; --i) {
-            uniform_int_distribution<size_t> dist(0, i);
-            size_t j = dist(gen);
-            swap(data[i], data[j]);
-        }
-    }
+    int addressToInt(const void* address) {
+    	std::stringstream ss;
+    	ss << "0x" << std::hex << std::uppercase << std::setw(16) << std::setfill('0') << reinterpret_cast<uintptr_t>(address);
+    	string a = ss.str();
+        int sum = 0;
+
+    	for (int i = 0; i < a.size(); i++) {
+        	if (isdigit(a[i])) {
+            	sum += a[i];
+        	}
+    	}
+
+        auto now = std::chrono::system_clock::now();
+    	auto duration = now.time_since_epoch();
+    	auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+    	milliseconds = (milliseconds * 7) % 10000;
+
+        return sum * milliseconds;
+	}
 
 
+	static vector<T> randomize(vector<T> v) {
 
-    //adoudkins stuff
+		if (v.siza() <= 1) return;
+                //creating a fector to add to after randomly selecting from vector v
+		vector<T> temp(v.size());
+		T* mem = &temp[0];
+		for (size_t i = 0; i < v.size(); ++i) {
+  			T* mem = &temp[i];
+  			temp[i] = v[addressToInt(mem)%v.size()];
+		}
 
-
-    void randomize() {
-      if (data.siza() <= 1) return;
-      auto now = std::chrono::system_clock::now();
-      auto duration = now.time_since_epoch();
-      auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+		return temp;
 
 
       }
