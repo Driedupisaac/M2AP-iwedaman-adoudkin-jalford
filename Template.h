@@ -3,6 +3,8 @@
 //
 #include <vector>
 #include <ctime>
+#include <chrono>
+
 using namespace std;
 
 #ifndef TEMPLATE_H
@@ -44,10 +46,9 @@ class Template {
 
     void randomize() {
       if (data.siza() <= 1) return;
-
-      int time = time();
-
-
+      auto now = std::chrono::system_clock::now();
+      auto duration = now.time_since_epoch();
+      auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 
 
       }
