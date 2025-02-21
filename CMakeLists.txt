@@ -3,5 +3,6 @@ project(M2AP)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(M2AP main.cpp)
+add_executable(M2AP main.cpp
+        Template.h)
 
