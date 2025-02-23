@@ -22,7 +22,7 @@ private:
 
 public:
 
-    vector<T> randomize(vector<T> originalVector) {
+    vector<T> randomizead(vector<T> originalVector) {
         int originalVectorsize = originalVector.size();
         stringstream ss;
         const void* address;
@@ -68,7 +68,51 @@ public:
         return result;
     }
 
+    //i got this method from geeks for geeks: the "fisher - yates" algorithm
+    void randomizeiw() {
+        //you do not need to shuffle a vector of size one.
+        if (templates.size() <= 1) return;
 
+        //seeding the random generator
+        random_device rd;
+        mt19937 gen(rd());
+
+        //for each item in the vector, then generate a random index, and swap (using std::swap)
+        //the indexes, and the data contained.
+        for (size_t i = templates.size() - 1; i > 0; --i) {
+            uniform_int_distribution<size_t> dist(0, i);
+            size_t j = dist(gen);
+            swap(data[i], data[j]);
+        }
+    }
+
+    //this method utilizes the <algorithm> package
+    void sort() {
+        sort(templates.begin(), templates.end());
+    }
+
+    int find(const T& value) const {
+        //have an index counter, and see if the inputted value can be found using the
+        //"find" function from <algorithm>
+        //-1 is returned if not
+        int index;
+        index = find(templates.begin(), templates.end(), value);
+
+        //searches through the data, and if the search stop (item found), the distance to that item
+        //is calculated, and returned, or -1 if not
+        if (index != templates.end()) {
+            return distance(templates.begin(), index);
+        } else {
+            return -1;
+        }
+    }
+
+    ostream& operator<<(ostream& os, const Template<T>& obj) {
+        for (const auto& val : obj.templates) {
+            os << val << " ";
+        }
+        return os;
+    }
 
 
 };
